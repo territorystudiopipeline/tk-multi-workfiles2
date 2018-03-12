@@ -320,6 +320,8 @@ class FileSaveForm(FileFormBase):
         :returns:   Tuple containing (path, min_version)
         :raises:    Error if something goes wrong!
         """
+
+        app.log_debug("9=9=" * 50)
         app = sgtk.platform.current_bundle()
 
         # first make  sure the environment is complete:
@@ -373,6 +375,8 @@ class FileSaveForm(FileFormBase):
             file_key = FileItem.build_file_key(fields, env.work_template, 
                                                env.version_compare_ignore_fields)
             file_versions = None
+            if self.project_has_strict_versioning():
+                file_versions = self.get_all_dcc_versions()
             if self._file_model:
                 file_versions = self._file_model.get_cached_file_versions(file_key, env, clean_only=True)
             if file_versions == None:
@@ -399,6 +403,12 @@ class FileSaveForm(FileFormBase):
 
         # see if we can build a valid path from the fields:
         path = None
+        try:
+            self._app.log_debug("0=0=0=0 " * 100)
+            self._app.log_debug(str(env.work_template.dcc_work_templates))
+            self._app.log_debug("9=9=9=9 " * 100)
+        except Exception as e:
+            pass
         try:
             path = env.work_template.apply_fields(fields)
         except TankError, e:

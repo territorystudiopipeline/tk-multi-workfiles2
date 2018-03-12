@@ -65,28 +65,28 @@ height: 24;
 }
 
 #expand_checkbox::indicator::unchecked {
-	image: url(:/tk-multi-workfiles2/save_expand.png);
+	image: url(:/ts-multi-workfiles2/save_expand.png);
 
 }
 
 #expand_checkbox::indicator::unchecked::hover {
-	image: url(:/tk-multi-workfiles2/save_expand_hover.png);
+	image: url(:/ts-multi-workfiles2/save_expand_hover.png);
 }
 
 #expand_checkbox::indicator::unchecked::pressed {
-	image: url(:/tk-multi-workfiles2/save_expand_pressed.png);
+	image: url(:/ts-multi-workfiles2/save_expand_pressed.png);
 }
 
 #expand_checkbox::indicator::checked {
-    image: url(:/tk-multi-workfiles2/save_collapse.png);
+    image: url(:/ts-multi-workfiles2/save_collapse.png);
 }
 
 #expand_checkbox::indicator::checked:hover {
-    image: url(:/tk-multi-workfiles2/save_collapse_hover.png);
+    image: url(:/ts-multi-workfiles2/save_collapse_hover.png);
 }
 
 #expand_checkbox::indicator::checked:pressed {
-    image: url(:/tk-multi-workfiles2/save_collapse_pressed.png);
+    image: url(:/ts-multi-workfiles2/save_collapse_pressed.png);
 }</string>
            </property>
            <property name="text">

@@ -29,7 +29,7 @@ class FileListItemDelegate(GroupedListViewItemDelegate):
         GroupedListViewItemDelegate.__init__(self, view)
         
         self._item_widget = None
-        self._folder_icon = QtGui.QPixmap(":/tk-multi-workfiles2/folder_512x400.png")
+        self._folder_icon = QtGui.QPixmap(":/ts-multi-workfiles2/folder_512x400.png")
 
     def create_group_widget(self, parent):
         return FileGroupWidget(parent)

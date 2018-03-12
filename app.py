@@ -101,7 +101,7 @@ class MultiWorkFiles(sgtk.platform.Application):
         """
         Clean up app
         """
-        self.log_debug("Destroying tk-multi-workfiles2")
+        self.log_debug("Destroying ts-multi-workfiles2")
 
     def show_file_open_dlg(self):
         """

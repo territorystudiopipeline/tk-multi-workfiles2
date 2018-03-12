@@ -240,8 +240,12 @@ class WorkArea(object):
         Extracts the settings from the environment file.
         """
         # attemps to load all settings for the context:
-        templates_to_find = ["template_work", "template_publish",
-                             "template_work_area", "template_publish_area"]
+        templates_to_find = ["template_work",
+                             "template_publish",
+                             "template_work_area",
+                             "template_publish_area",
+                             "strict_work_templates",
+                             "strict_publish_templates"]
         settings_to_find = ["saveas_default_name", "saveas_prefer_version_up",
                             "version_compare_ignore_fields", "file_extensions"]
         resolved_settings = {}
@@ -258,6 +262,8 @@ class WorkArea(object):
         self.work_template = resolved_settings.get("template_work")
         self.publish_area_template = resolved_settings.get("template_publish_area")
         self.publish_template = resolved_settings.get("template_publish")
+        self.strict_work_templates = resolved_settings.get("dcc_work_templates")
+        self.strict_publish_templates = resolved_settings.get("strict_publish_templates")
 
         # update other settings:
         self.save_as_default_name = resolved_settings.get("saveas_default_name", "")
@@ -266,7 +272,7 @@ class WorkArea(object):
         extensions = resolved_settings.get("file_extensions") or []
         extensions = [ext if ext.startswith(".") else ".%s" % ext for ext in extensions if ext]
         self.valid_file_extensions = extensions
-
+        
         # test for user sandboxes:
         self._work_template_contains_user = self.work_template and bool(get_template_user_keys(self.work_template))
         self._publish_template_contains_user = self.publish_template and bool(get_template_user_keys(self.publish_template))
@@ -379,7 +385,7 @@ class WorkArea(object):
                 return settings.get("settings")
 
         app.log_warning(
-            "Looking for tk-multi-workfiles application settings in '%s' context"
+            "Looking for ts-multi-workfiles application settings in '%s' context"
             " yielded too many results (%s), none named '%s'." % (
                 context,
                 ", ".join([s.get("app_instance") for s in app_settings]),

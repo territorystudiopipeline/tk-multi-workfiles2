@@ -101,6 +101,9 @@ class FileActionFactory(object):
         :returns: List of Actions.
         """
         actions = []
+        
+
+
 
         current_user_file_versions = self._get_current_user_file_versions(file_item)
 
@@ -140,6 +143,9 @@ class FileActionFactory(object):
 
         :returns: List of file versions owned by the current user.
         """
+        app = sgtk.platform.current_bundle()
+        app.log_debug("8=8=8=" * 50)
+
 
         # get the list of file versions for the file
         current_user_file_versions = {}
