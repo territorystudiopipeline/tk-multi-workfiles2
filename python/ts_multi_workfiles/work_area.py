@@ -244,8 +244,8 @@ class WorkArea(object):
                              "template_publish",
                              "template_work_area",
                              "template_publish_area",
-                             "strict_work_templates",
-                             "strict_publish_templates"]
+                             "dcc_work_templates",
+                             "dcc_publish_templates"]
         settings_to_find = ["saveas_default_name", "saveas_prefer_version_up",
                             "version_compare_ignore_fields", "file_extensions"]
         resolved_settings = {}
@@ -262,8 +262,8 @@ class WorkArea(object):
         self.work_template = resolved_settings.get("template_work")
         self.publish_area_template = resolved_settings.get("template_publish_area")
         self.publish_template = resolved_settings.get("template_publish")
-        self.strict_work_templates = resolved_settings.get("dcc_work_templates")
-        self.strict_publish_templates = resolved_settings.get("strict_publish_templates")
+        self.dcc_work_templates = resolved_settings.get("dcc_work_templates")
+        self.dcc_publish_templates = resolved_settings.get("dcc_publish_templates")
 
         # update other settings:
         self.save_as_default_name = resolved_settings.get("saveas_default_name", "")
@@ -321,7 +321,15 @@ class WorkArea(object):
 
             # get templates:
             for key in templates_to_find:
-                resolved_settings[key] = app.get_template(key)
+                if type(app.get_setting(key)) == list:
+                    lst = []
+                    for a in app.get_setting(key):
+                        template = app.get_template_by_name(a)
+                        lst.append(template)
+                    resolved_settings[key] = lst
+                else:
+                    template = app.get_template(key)
+                    resolved_settings[key] = template
 
             # get additional settings:
             for key in settings_to_find:
@@ -333,7 +341,16 @@ class WorkArea(object):
             if settings:
                 # get templates:
                 for key in templates_to_find:
-                    resolved_settings[key] = app.get_template_from(settings, key)
+                    if type(app.get_setting_from(settings, key)) == list:
+                        lst = []
+                        for a in app.get_setting_from(settings, key):
+                            template = app.get_template_by_name(settings, a)
+                            lst.append(template)
+                        resolved_settings[key] = lst
+                    else:
+
+                        template = app.get_template_from(settings, key)
+                        resolved_settings[key] = app.get_template_from(settings, key)
 
                 # get additional settings:
                 for key in settings_to_find:
@@ -385,7 +402,7 @@ class WorkArea(object):
                 return settings.get("settings")
 
         app.log_warning(
-            "Looking for ts-multi-workfiles application settings in '%s' context"
+            "Looking for ts_multi_workfiles application settings in '%s' context"
             " yielded too many results (%s), none named '%s'." % (
                 context,
                 ", ".join([s.get("app_instance") for s in app_settings]),

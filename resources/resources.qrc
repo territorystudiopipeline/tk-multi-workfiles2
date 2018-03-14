@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="ts-multi-workfiles2">
+  <qresource prefix="ts_multi_workfiles2">
     <file>save_collapse_pressed.png</file>
     <file>users_current_hover.png</file>
     <file>users_none_hover.png</file>

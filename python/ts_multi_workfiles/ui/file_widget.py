@@ -31,7 +31,7 @@ class Ui_FileWidget(object):
         self.thumbnail.setStyleSheet("")
         self.thumbnail.setText("")
         self.thumbnail.setTextFormat(QtCore.Qt.AutoText)
-        self.thumbnail.setPixmap(QtGui.QPixmap(":/ts-multi-workfiles2/thumb_empty.png"))
+        self.thumbnail.setPixmap(QtGui.QPixmap(":/ts_multi_workfiles2/thumb_empty.png"))
         self.thumbnail.setScaledContents(True)
         self.thumbnail.setAlignment(QtCore.Qt.AlignCenter)
         self.thumbnail.setObjectName("thumbnail")

@@ -37,28 +37,28 @@ class Ui_FileSaveForm(object):
 "}\n"
 "\n"
 "#expand_checkbox::indicator::unchecked {\n"
-"    image: url(:/ts-multi-workfiles2/save_expand.png);\n"
+"    image: url(:/ts_multi_workfiles2/save_expand.png);\n"
 "\n"
 "}\n"
 "\n"
 "#expand_checkbox::indicator::unchecked::hover {\n"
-"    image: url(:/ts-multi-workfiles2/save_expand_hover.png);\n"
+"    image: url(:/ts_multi_workfiles2/save_expand_hover.png);\n"
 "}\n"
 "\n"
 "#expand_checkbox::indicator::unchecked::pressed {\n"
-"    image: url(:/ts-multi-workfiles2/save_expand_pressed.png);\n"
+"    image: url(:/ts_multi_workfiles2/save_expand_pressed.png);\n"
 "}\n"
 "\n"
 "#expand_checkbox::indicator::checked {\n"
-"    image: url(:/ts-multi-workfiles2/save_collapse.png);\n"
+"    image: url(:/ts_multi_workfiles2/save_collapse.png);\n"
 "}\n"
 "\n"
 "#expand_checkbox::indicator::checked:hover {\n"
-"    image: url(:/ts-multi-workfiles2/save_collapse_hover.png);\n"
+"    image: url(:/ts_multi_workfiles2/save_collapse_hover.png);\n"
 "}\n"
 "\n"
 "#expand_checkbox::indicator::checked:pressed {\n"
-"    image: url(:/ts-multi-workfiles2/save_collapse_pressed.png);\n"
+"    image: url(:/ts_multi_workfiles2/save_collapse_pressed.png);\n"
 "}")
         self.expand_checkbox.setText("")
         self.expand_checkbox.setObjectName("expand_checkbox")
@@ -264,7 +264,7 @@ class Ui_FileSaveForm(object):
         FileSaveForm.setWindowTitle(QtGui.QApplication.translate("FileSaveForm", "Form", None, QtGui.QApplication.UnicodeUTF8))
         self.expand_checkbox.setToolTip(QtGui.QApplication.translate("FileSaveForm", "Toggle Browser", None, QtGui.QApplication.UnicodeUTF8))
         self.version_label.setText(QtGui.QApplication.translate("FileSaveForm", "<html><head/><body><p><span style=\" font-weight:600;\">Version:</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.name_label.setText(QtGui.QApplication.translate("FileSaveForm", "<html><head/><body><p><span style=\" font-weight:600;\">Name:</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.name_label.setText(QtGui.QApplication.translate("FileSaveForm", "<html><head/><body><p><span style=\" font-weight:600;\">Name_____:</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.file_type_label.setText(QtGui.QApplication.translate("FileSaveForm", "<html><head/><body><p><span style=\" font-weight:600;\">File Type:</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.use_next_available_cb.setText(QtGui.QApplication.translate("FileSaveForm", "Use Next Available Version Number", None, QtGui.QApplication.UnicodeUTF8))
         self.preview_label.setText(QtGui.QApplication.translate("FileSaveForm", "<html><head/><body><p><span style=\" font-weight:600; color:rgb(120, 120, 120)\">Preview:</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))

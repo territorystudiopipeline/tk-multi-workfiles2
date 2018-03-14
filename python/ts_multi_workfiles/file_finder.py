@@ -167,29 +167,31 @@ class FileFinder(QtCore.QObject):
         # find all work & publish files and filter out any that should be ignored:
         work_files = self._find_work_files(context, work_template, version_compare_ignore_fields)
         filtered_work_files = self._filter_work_files(work_files, valid_file_extensions)
-        
-        published_files = self._find_publishes(publish_filters)
-        filtered_published_files = self._filter_publishes(published_files, 
-                                                          publish_template, 
-                                                          valid_file_extensions)
+        if publish_template:
+            published_files = self._find_publishes(publish_filters)
+            filtered_published_files = self._filter_publishes(published_files, 
+                                                              publish_template, 
+                                                              valid_file_extensions)
+        else:
+            filtered_published_files = []
         
         # turn these into FileItem instances:
         name_map = FileFinder._FileNameMap()
-        work_file_item_details = self._process_work_files(filtered_work_files, 
-                                                        work_template, 
-                                                        context, 
-                                                        name_map, 
-                                                        version_compare_ignore_fields, 
-                                                        filter_file_key)
+        work_file_item_details = self._process_work_files(filtered_work_files,
+                                                          work_template,
+                                                          context,
+                                                          name_map,
+                                                          version_compare_ignore_fields,
+                                                          filter_file_key)
         work_file_items = dict([(k, FileItem(**kwargs)) for k, kwargs in work_file_item_details.iteritems()])
 
-        publish_item_details = self._process_publish_files(filtered_published_files, 
-                                                         publish_template, 
-                                                         work_template, 
-                                                         context, 
-                                                         name_map, 
-                                                         version_compare_ignore_fields,
-                                                         filter_file_key)
+        publish_item_details = self._process_publish_files(filtered_published_files,
+                                                           publish_template,
+                                                           work_template,
+                                                           context,
+                                                           name_map,
+                                                           version_compare_ignore_fields,
+                                                           filter_file_key)
         publish_items = dict([(k, FileItem(**kwargs)) for k, kwargs in publish_item_details.iteritems()])
 
         # and aggregate the results:

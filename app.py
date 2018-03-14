@@ -24,7 +24,7 @@ class MultiWorkFiles(sgtk.platform.Application):
         """
         Called as the application is being initialized
         """
-        self._tk_multi_workfiles = self.import_module("tk_multi_workfiles")
+        self._ts_multi_workfiles = self.import_module("ts_multi_workfiles")
         self.__is_pyside_unstable = None
 
         if self.engine.name == "tk-mari":
@@ -80,10 +80,10 @@ class MultiWorkFiles(sgtk.platform.Application):
         # currently, we have done QA on the following engines:
         SUPPORTED_ENGINES = ["tk-nuke", "tk-maya", "tk-3dsmax"]
 
-        if self.engine.has_ui and not hasattr(sgtk, "_tk_multi_workfiles2_launch_at_startup"):
+        if self.engine.has_ui and not hasattr(sgtk, "_ts_multi_workfiles2_launch_at_startup"):
 
             # this is the very first time we have run this application
-            sgtk._tk_multi_workfiles2_launch_at_startup = True
+            sgtk._ts_multi_workfiles2_launch_at_startup = True
 
             if self.get_setting('launch_at_startup'):
                 # show the file manager UI
@@ -101,19 +101,19 @@ class MultiWorkFiles(sgtk.platform.Application):
         """
         Clean up app
         """
-        self.log_debug("Destroying ts-multi-workfiles2")
+        self.log_debug("Destroying ts_multi_workfiles2")
 
     def show_file_open_dlg(self):
         """
         Launch the main File Open UI
         """
-        self._tk_multi_workfiles.WorkFiles.show_file_open_dlg()
+        self._ts_multi_workfiles.WorkFiles.show_file_open_dlg()
 
     def show_file_save_dlg(self):
         """
         Launch the main File Save UI
         """
-        self._tk_multi_workfiles.WorkFiles.show_file_save_dlg()
+        self._ts_multi_workfiles.WorkFiles.show_file_save_dlg()
 
     @property
     def context_change_allowed(self):

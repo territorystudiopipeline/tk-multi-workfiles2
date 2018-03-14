@@ -13,7 +13,7 @@ Qt widget where the user can enter name, version and file type in order to save 
 current work file.  Also give the user the option to select the file to save from
 the list of current work files.
 """
-
+import copy
 import os
 import traceback
 from itertools import chain
@@ -320,8 +320,6 @@ class FileSaveForm(FileFormBase):
         :returns:   Tuple containing (path, min_version)
         :raises:    Error if something goes wrong!
         """
-
-        app.log_debug("9=9=" * 50)
         app = sgtk.platform.current_bundle()
 
         # first make  sure the environment is complete:
@@ -369,27 +367,17 @@ class FileSaveForm(FileFormBase):
         next_version = None
         version_is_used = "version" in env.work_template.keys
         if version_is_used:
-            # version is used so we need to find the latest version - this means 
-            # searching for files...
-            # need a file key to find all versions so lets build it:
-            file_key = FileItem.build_file_key(fields, env.work_template, 
-                                               env.version_compare_ignore_fields)
             file_versions = None
             if self.project_has_strict_versioning():
-                file_versions = self.get_all_dcc_versions()
-            if self._file_model:
-                file_versions = self._file_model.get_cached_file_versions(file_key, env, clean_only=True)
-            if file_versions == None:
-                # fall back to finding the files manually - this will be slower!  
-                try:
-                    finder = FileFinder()
-                    files = finder.find_files(env.work_template, 
-                                              env.publish_template, 
-                                              env.context,
-                                              file_key) or []
-                except TankError, e:
-                    raise TankError("Failed to find files for this work area: %s" % e)
-                file_versions = [f.version for f in files]
+                env.version_compare_ignore_fields = ['name']
+                file_versions = self.get_all_dcc_versions(env,
+                                                          fields)
+            else:
+                file_versions = self.get_dcc_versions(env,
+                                                      fields,
+                                                      env.work_template,
+                                                      env.publish_template)
+
 
             max_version = max(file_versions or [0])
             next_version = max_version + 1
@@ -403,12 +391,7 @@ class FileSaveForm(FileFormBase):
 
         # see if we can build a valid path from the fields:
         path = None
-        try:
-            self._app.log_debug("0=0=0=0 " * 100)
-            self._app.log_debug(str(env.work_template.dcc_work_templates))
-            self._app.log_debug("9=9=9=9 " * 100)
-        except Exception as e:
-            pass
+
         try:
             path = env.work_template.apply_fields(fields)
         except TankError, e:
@@ -423,6 +406,56 @@ class FileSaveForm(FileFormBase):
         return {"path":path, 
                 "version":version, 
                 "next_version":next_version}
+
+    def project_has_strict_versioning(self):
+        app = sgtk.platform.current_bundle()
+        pid = app.context.project['id']
+        project = app.shotgun.find_one("Project", [['id','is',pid]],["sg_strict_versioning"])
+        return project["sg_strict_versioning"]
+
+    def get_all_dcc_versions(self, env, fields):
+        versions = []
+        search_fields = copy.deepcopy(fields)
+        for a in env.version_compare_ignore_fields:
+            if search_fields.get(a):
+                del(search_fields[a])
+        for w, p in zip(env.dcc_work_templates, env.dcc_publish_templates):
+            versions += self.get_dcc_versions(env, search_fields, w, p)
+        return versions
+
+    def get_dcc_versions(self, env, fields, work_template, publish_template):
+        # version is used so we need to find the latest version - this means 
+        # searching for files...
+        # need a file key to find all versions so lets build it:
+        file_versions = None
+        file_key = FileItem.build_file_key(fields, work_template,
+                                           env.version_compare_ignore_fields)
+        key = str(env) + str(fields) + str(work_template) + str(publish_template)
+        if self._file_model:
+            cached = self._file_model._search_cache._cache.get(key)
+            if cached:
+                file_versions = cached 
+
+
+            # file_versions = self._file_model.get_cached_file_versions(file_key, env, clean_only=True)
+        if file_versions is None:
+            # fall back to finding the files manually - this will be slower!  
+            try:
+                finder = FileFinder()
+                files = finder.find_files(work_template,
+                                          publish_template,
+                                          env.context,
+                                          file_key) or []
+            except TankError, e:
+                raise TankError("Failed to find files for this work area: %s" % e)
+
+
+            file_versions = [f.version for f in files]
+            self._file_model._search_cache._cache[key] = file_versions
+
+
+        return file_versions
+
 
     def _update_version_spinner(self, version, min_version, block_signals=True):
         """
