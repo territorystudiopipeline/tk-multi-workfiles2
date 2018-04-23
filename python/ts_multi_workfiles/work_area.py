@@ -344,7 +344,7 @@ class WorkArea(object):
                     if type(app.get_setting_from(settings, key)) == list:
                         lst = []
                         for a in app.get_setting_from(settings, key):
-                            template = app.get_template_by_name(settings, a)
+                            template = app.get_template_by_name(a)
                             lst.append(template)
                         resolved_settings[key] = lst
                     else:
