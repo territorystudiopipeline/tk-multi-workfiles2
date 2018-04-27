@@ -223,7 +223,7 @@ class FileFinder(QtCore.QObject):
                   :class:`FileItem`.
         """
         files = {}
-        
+        version_compare_ignore_fields = []
         for work_file in work_files:
             
             # always have the work path:
@@ -286,14 +286,8 @@ class FileFinder(QtCore.QObject):
                 file_details["modified_by"] = g_user_cache.get_file_last_modified_user(work_path)
 
             # make sure all files with the same key have the same name:
-            # file_details["name"] = name_map.get_name(
-            #     file_key, work_path, work_template, wf_fields
-            # )
             file_details["name"] = name_map.get_name(
-                FileItem.build_file_key(
-                wf_fields,
-                work_template,
-                []), work_path, work_template, wf_fields
+                file_key, work_path, work_template, wf_fields
             )
 
             # add to the list of files
