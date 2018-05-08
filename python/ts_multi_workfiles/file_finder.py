@@ -223,7 +223,6 @@ class FileFinder(QtCore.QObject):
                   :class:`FileItem`.
         """
         files = {}
-        version_compare_ignore_fields = []
         for work_file in work_files:
             
             # always have the work path:
